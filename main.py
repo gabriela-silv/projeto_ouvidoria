@@ -76,9 +76,9 @@ while opcao != 5:
             print()
             ocorrencia = input('Digite sua reclamação: ')
 
-            adicionaNovoFilme = 'insert into ocorrencia (nome_pessoa,reclamacao) values (%s,%s)'
+            adicionaNovaOcorrencia = 'insert into ocorrencia (nome_pessoa,reclamacao) values (%s,%s)'
             dados = (nome, ocorrencia)
-            insertNoBancoDados(conexao, adicionaNovoFilme, dados)
+            insertNoBancoDados(conexao, adicionaNovaOcorrencia, dados)
 
             consultaCodigo = 'select codigo_ocorrencia from ocorrencia'
             listaCodigo = listarBancoDados(conexao,consultaCodigo)
@@ -104,12 +104,9 @@ while opcao != 5:
                 codigo = input('Digite o código da ocorrência a ser removida: ')
                 consultaRemoverOcorrenciaCodigo = 'delete from ocorrencia where codigo_ocorrencia = %s '
                 dados = (codigo,)
-                excluirBancoDados(conexao, consultaRemoverOcorrenciaCodigo, dados)
+                quantidadeLinhasAfetadas = excluirBancoDados(conexao, consultaRemoverOcorrenciaCodigo, dados)
                 print()
-                exibeOcorrenciaFinal = 'select * from ocorrencia'
-                listaOcorrenciaFinal = listarBancoDados(conexao, exibeOcorrenciaFinal)
-                listaOcorrenciaTamanhoFinal = len(listaOcorrenciaFinal)
-                if listaOcorrenciaTamanhoInicial == listaOcorrenciaTamanhoFinal:
+                if quantidadeLinhasAfetadas == 0:
                     print('Não há ocorrência cadastrada com o código pesquisado.')
                 else:
                     print('Ocorrência removida com sucesso.')
@@ -138,7 +135,7 @@ while opcao != 5:
                 print('Não existem ocorrências disponíveis com este código!')
             else:
                 print()
-                print('Listagem de Filmes')
+                print('Listagem de ocorrências')
                 for ocorrencia in listaOcorrencia:
                     print('Código', ocorrencia[0], 'nome: ', ocorrencia[1], 'ocorrencia:', ocorrencia[2],)
 
